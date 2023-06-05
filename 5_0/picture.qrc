@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/new/Snake">
+        <file>body_segment_after_head.png</file>
+        <file>body_segment_default.png</file>
+        <file>body_segment_on_turn_right.png</file>
+        <file>default_sprite_tongue_down.png</file>
+        <file>default_sprite_tongue_up.png</file>
+        <file>default_sprite_without_tongue.png</file>
+        <file>default_sprite.png</file>
+    </qresource>
+    <qresource prefix="/new/Fruits">
+        <file>apple.png</file>
+        <file>Banana.png</file>
+        <file>orange.png</file>
+        <file>pear.png</file>
+    </qresource>
+    <qresource prefix="/new/biom">
+        <file>hill_Level_1.png</file>
+        <file>iceland_Level_3.png</file>
+    </qresource>
+</RCC>
