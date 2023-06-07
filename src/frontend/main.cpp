@@ -1,11 +1,11 @@
 #include <QApplication>
 
-#include "mainwindow.h"
+#include "authform.h"
 
 int main(int argc, char **argv)
 {
     QApplication a(argc, argv);
-    MainWindow w;
+    AuthForm w;
     w.show();
     return a.exec();
 }

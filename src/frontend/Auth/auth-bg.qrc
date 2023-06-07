@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="auth-bg">../../../img/auth-bg.png</file>
+        <file alias="icon">../../../img/icon.png</file>
+        <file alias="game_over_splash">../../../img/game_over_splash.png</file>
+        <file alias="victory_splash">../../../img/victory_splash.png</file>
+    </qresource>
+</RCC>

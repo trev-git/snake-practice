@@ -86,11 +86,18 @@ void Database::addHighscore(int level, int score, int userId)
 void Database::userSignUp(std::string username, std::string password)
 {
     QSqlQuery q(db);
-    q.prepare("INSERT INTO Users (username, password) VALUES (:username, :password)");
+    if (!q.prepare("INSERT INTO Users (username, password) VALUES (:username, :password)"))
+    {
+        qDebug() << q.lastError().text();
+    }
     q.bindValue(":username", QString::fromStdString(username));
     q.bindValue(":password", QString::fromStdString(generateSHA256(password)));
+    if (!q.exec())
+    {
+        qDebug() << q.lastError().text();
+        throw std::runtime_error("Не удалось занести пользователя в базу данных!");
 
-    if (!q.exec()) throw std::runtime_error("Не удалось занести пользователя в базу данных!");
+    }
 }
 
 /**
@@ -114,7 +121,13 @@ bool Database::userLogin(std::string username, std::string password)
     q.prepare("SELECT username, password FROM Users WHERE username LIKE :username AND password LIKE :password");
     q.bindValue(":username", QString::fromStdString(username));
     q.bindValue(":password", QString::fromStdString(generateSHA256(password)));
-    if (!q.exec()) throw std::runtime_error("Не удалось получить пользователей!");
+
+    qDebug() << QString::fromStdString(generateSHA256(password));
+    if (!q.exec())
+    {
+        qDebug() << q.lastError().text();
+        throw std::runtime_error("Не удалось получить пользователей!");
+    }
 
     if (q.next())
     {
@@ -155,4 +168,9 @@ std::string Database::generateSHA256(std::string const &str)
     }
 
     return ss.str();
+}
+
+bool Database::isOpen()
+{
+    return db.isOpen();
 }

@@ -16,8 +16,16 @@ SOURCES += \
 HEADERS += \
     Database/database.h
 
-LIBS += \
-    -L/usr/include -lcrypto
+win32 {
+    LIBS += \
+        -IC:/msys64/mingw64/include \
+        -LC:/msys64/mingw64/lib \
+        -llibcrypto
+} else {
+    LIBS += \
+        -L/usr/include -lcrypto
+}
+
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -12,6 +12,10 @@
  * userSignUp - интерфейс для регистрации пользователя;
  * userLogin - интерфейс для авторизации пользователя;
  * generateSHA256 - генерация хеша SHA256.
+ *
+ * Поле класса Database:
+ *
+ * db - база данных.
  */
 
 #ifndef DATABASE_H
@@ -29,6 +33,7 @@ public:
     void userSignUp(std::string username, std::string password);
     bool userLogin(std::string username, std::string password);
     static std::string generateSHA256(std::string const &str);
+    bool isOpen();
 
 private:
     QSqlDatabase db;
