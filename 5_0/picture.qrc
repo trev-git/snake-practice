@@ -7,6 +7,7 @@
         <file>default_sprite_tongue_up.png</file>
         <file>default_sprite_without_tongue.png</file>
         <file>default_sprite.png</file>
+        <file>Snake_tail.png</file>
     </qresource>
     <qresource prefix="/new/Fruits">
         <file>apple.png</file>
@@ -17,5 +18,7 @@
     <qresource prefix="/new/biom">
         <file>hill_Level_1.png</file>
         <file>iceland_Level_3.png</file>
+        <file>castle.png</file>
+        <file>victory_splash_big.png</file>
     </qresource>
 </RCC>

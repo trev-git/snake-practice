@@ -9,6 +9,9 @@
 #include <QPainter>
 #include <QKeyEvent>
 #include <QDebug>
+#include <QTimer>
+#include <chrono>
+#include <thread>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Game; }
@@ -17,9 +20,8 @@ QT_END_NAMESPACE
 
 struct wall
 {
-private:
     int start_x, end_x, start_y, end_y;
-public:
+
     wall(int start_x, int end_x, int start_y, int end_y)
     {
         this->start_x=start_x;
@@ -33,13 +35,14 @@ public:
 class level
 {
 public:
-    int num_level;
-    QString level_background;
+    int num_fruits, fruits_for_next_level;
+    QString link_pic_background;
     QVector <wall> walls;
-    level(int num_level, QString level_background, QVector <wall> walls)
+    level(int num_fruits, int fruits_for_next_level, QString link_pic_background, QVector <wall> walls)
     {
-        this->num_level=num_level;
-        this->level_background=level_background;
+        this->num_fruits=num_fruits;
+        this->fruits_for_next_level=fruits_for_next_level;
+        this->link_pic_background=link_pic_background;
         this->walls=walls;
     }
 
@@ -68,7 +71,7 @@ class Game : public QWidget
     Q_OBJECT
 
 private:
-    Ui::Game *ui;
+   // Ui::Game *ui;
     QVector<Snake> snake;       // вектор сегментов тела
     QRect head;                 // прямоугольник голы
 
@@ -81,33 +84,50 @@ private:
     int cor_x=0;        //координата по х
     int cor_y=0;        //координата по у
     int score=0;
+    QPoint last_direction;
 
 
-    int angle;
-    QImage def_body, first_body, headpic, turn_body;
+    int angle, head_angle, distance_segm, head_x, head_y;
+    QImage grap_obj;
     QString link_head = ":/new/Snake/default_sprite.png",
     link_def_body = ":/new/Snake/body_segment_default.png",
     link_first_body = ":/new/Snake/body_segment_after_head.png",
     link_turn_body = ":/new/Snake/body_segment_on_turn_right.png";
 
     bool aple=false;    // определяет, существует ли яблоко в данный момент
+    bool correct_coordinates=true;
+    bool use_spechial_fruits=false;
     QRect fruit_obj;       // прямоугольник яблока
-    QVector<QString> links_fruits = {":/new/Fruits/apple.png", ":/new/Fruits/Banana.png", ":/new/Fruits/orange.png", ":/new/Fruits/pear.png"};
+    QVector<QString> links_fruits = {":/new/Fruits/apple.png", ":/new/Fruits/pear.png", ":/new/Fruits/orange.png", ":/new/Fruits/Banana.png"};
     int types_of_fruits_now;
+    int balanc_fruit;
+    int time_use_fruits=0;
+    int change_speed;
+    int time_for_special_fruits=5000;
+
+    QVector<level> levels {{1,5,":/new/biom/hill_Level_1.png",{}},
+                           {2,8,":/new/biom/iceland_Level_3.png",{{90,110, 160, 420},{100,280, 150,170}}},
+                           {4,13, ":/new/biom/castle.png" ,{{200,220,40,100}, {200,400,90,100}, {0,160,180,200},  {220,400,180,200}, {0, 160, 270, 280}, {150, 160, 280, 320}}}};
+    //Перерисовать правую верхнюю стенку кастл левел.
+    int level_now = 0;
+    QImage break_skin;
+    QImage level_skin;
+    QPalette palette;
+
+    QLabel *label;
 
 public:
     Game(QWidget *parent = nullptr);
     ~Game();
+    void background_draw();
     void drawSnake();
     void drawBody();
-    void f_angle_head(int &angle_head);
     void transform_image(QImage &target_pic, QString link, int angle);
     void aplleSpawn();
     void eat();
     void keyPressEvent(QKeyEvent *ev);
     void paintEvent(QPaintEvent *ev);
     void timerEvent(QTimerEvent *ev);
-
 };
 
 
